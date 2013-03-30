@@ -48,6 +48,7 @@ OptStmts  = Stmts
 
 Stmt      = While
           | Until
+          | For
           | If
           | Unless
           | Def
@@ -142,6 +143,10 @@ Until     = 'until' SPACE cond:Expr SEP
               body:Stmts -
             'end'                           { $$ = NODE2(UNTIL, cond, body) }
 
+For       = 'for' SPACE var:ID SPACE 'in' SPACE val:Expr SEP
+                body:Stmts -
+            'end'                           { $$ = NODE3(FOR, val, var, body) }
+
 If        = 'if' SPACE cond:Expr SEP        { else_body = 0 }
               body:Stmts -
             else_body:Else?
@@ -226,7 +231,7 @@ HashItems = head:Expr - '=>' - val:Expr     { head = NODES_N(2, head, val) }
                 '=>' - val:Expr             { PUSH_NODE(head, val) }
             )*                              { $$ = head }
 
-KEYWORD   = 'while' | 'until' | 'do' | 'end' |
+KEYWORD   = 'while' | 'until' | 'for' | 'do' | 'end' |
             'if' | 'unless' | 'else' |
             'true' | 'false' | 'nil' | 'self' |
             'class' | 'module' | 'def' |
