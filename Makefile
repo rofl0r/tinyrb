@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -std=c99 -Wall -Wextra -D_XOPEN_SOURCE -DDEBUG -g ${OPTIMIZE}
 INCS = -Ivm -Ivendor/gc/include -Ivendor/pcre -Ivendor
 LIBS = ${GC} ${PCRE}
-GC = vendor/gc/.libs/libgc.a
+GC = -lgc
 PCRE = vendor/pcre/.libs/libpcre.a
 LEG = vendor/peg/leg
 FREEGETOPT = vendor/freegetopt/getopt.o
@@ -47,10 +47,6 @@ ${FREEGETOPT}:
 ${LEG}:
 	@echo " make peg/leg"
 	@cd vendor/peg && make -s
-
-${GC}:
-	@echo " make gc"
-	@cd vendor/gc && ./configure --disable-threads -q && make -s
 
 ${PCRE}:
 	@echo " make pcre"
