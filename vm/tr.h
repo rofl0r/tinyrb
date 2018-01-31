@@ -100,8 +100,8 @@
 /* immediate values macros */
 #define TR_IMMEDIATE(X)      (X==TR_NIL || X==TR_TRUE || X==TR_FALSE || X==TR_UNDEF || TR_IS_FIX(X))
 #define TR_IS_FIX(F)         ((F) & 1)
-#define TR_FIX2INT(F)        (((int)(F) >> 1))
-#define TR_INT2FIX(I)        ((I) << 1 |  1)
+#define TR_FIX2INT(F)        (((uintptr_t)(F) >> 1))
+#define TR_INT2FIX(I)        ((uintptr_t)(I) << 1 |  1)
 #define TR_NIL               ((OBJ)0)
 #define TR_FALSE             ((OBJ)2)
 #define TR_TRUE              ((OBJ)4)

@@ -78,7 +78,7 @@ static OBJ TrObject_class(VM, OBJ self) {
 
 static OBJ TrObject_object_id(VM, OBJ self) {
   UNUSED(vm);
-  return TR_INT2FIX((int)&self);
+  return TR_INT2FIX((uintptr_t)&self);
 }
 
 static OBJ TrObject_instance_eval(VM, OBJ self, OBJ code) {
