@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -std=c99 -Wall -Wextra -D_XOPEN_SOURCE -DDEBUG -g ${OPTIMIZE}
-INCS = -Ivm -Ivendor/gc/include -Ivendor/pcre -Ivendor
+INCS = -Ivm -Ivendor
 LIBS = ${GC} ${PCRE}
 GC = -lgc
 PCRE = -lpcre
