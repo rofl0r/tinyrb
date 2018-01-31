@@ -3,7 +3,7 @@ CFLAGS = -std=c99 -Wall -Wextra -D_XOPEN_SOURCE -DDEBUG -g ${OPTIMIZE}
 INCS = -Ivm -Ivendor/gc/include -Ivendor/pcre -Ivendor
 LIBS = ${GC} ${PCRE}
 GC = -lgc
-PCRE = vendor/pcre/.libs/libpcre.a
+PCRE = -lpcre
 LEG = vendor/peg/leg
 FREEGETOPT = vendor/freegetopt/getopt.o
 
@@ -47,10 +47,6 @@ ${FREEGETOPT}:
 ${LEG}:
 	@echo " make peg/leg"
 	@cd vendor/peg && make -s
-
-${PCRE}:
-	@echo " make pcre"
-	@cd vendor/pcre && ./configure -q && make -s
 
 test: tinyrb
 	@ruby test/runner
