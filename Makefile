@@ -29,16 +29,13 @@ OBJ_MIN = vm/tr.o
 all: tinyrb
 
 .c.o:
-	@echo "   cc $<"
-	@${CC} -c ${CFLAGS} ${INCS} -o $@ $<
+	${CC} -c ${CFLAGS} ${INCS} -o $@ $<
 
-tinyrb: ${LIBS} ${OBJ}
-	@echo " link tinyrb"
-	@${CC} ${CFLAGS} ${OBJ_POTION} ${OBJ} ${LIBS} ${PKG_LIBS} -o tinyrb
+tinyrb: ${OBJ}
+	${CC} ${CFLAGS} ${OBJ_POTION} ${OBJ} ${LIBS} ${PKG_LIBS} -o tinyrb
 
 vm/grammar.c: ${LEG} vm/grammar.leg
-	@echo "  leg vm/grammar.leg"
-	@${LEG} -ovm/grammar.c vm/grammar.leg
+	${LEG} -ovm/grammar.c vm/grammar.leg
 
 vm/vm.o: vm/call.h
 
