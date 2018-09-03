@@ -26,6 +26,8 @@ SRC = vm/string.c vm/number.c vm/range.c vm/regexp.c vm/primitive.c vm/proc.c vm
 OBJ = ${SRC:.c=.o}
 OBJ_MIN = vm/tr.o
 
+vm/grammar.o: CFLAGS += -Wno-unused-function -Wno-missing-field-initializers
+
 all: tinyrb
 
 .c.o:
