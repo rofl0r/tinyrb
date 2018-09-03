@@ -10,7 +10,3 @@ vm/grammar.c
 
 tinyrb
 tinyrb-*
-
-vendor/gc
-vendor/peg
-vendor/pcre
