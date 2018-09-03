@@ -295,13 +295,13 @@ OBJ yyerror() {
   VM = yyvm;
   OBJ msg = tr_sprintf(vm, "SyntaxError in %s at line %d", TR_STR_PTR(compiler->filename), compiler->line);
   /* Stupid ugly code, just to build a string... I suck... */
-  if (yytext[0]) TrString_push(vm, msg, tr_sprintf(vm, " near token '%s'", yytext));
-  if (yypos < yylimit) {
-    yybuf[yylimit]= '\0';
+  if (yyctx->__text[0]) TrString_push(vm, msg, tr_sprintf(vm, " near token '%s'", yyctx->__text));
+  if (yyctx->__pos < yyctx->__limit) {
+    yyctx->__buf[yyctx->__limit]= '\0';
     TrString_push(vm, msg, tr_sprintf(vm, " before text \""));
-    while (yypos < yylimit) {
-      if ('\n' == yybuf[yypos] || '\r' == yybuf[yypos]) break;
-      char c[2] = { yybuf[yypos++], '\0' };
+    while (yyctx->__pos < yyctx->__limit) {
+      if ('\n' == yyctx->__buf[yyctx->__pos] || '\r' == yyctx->__buf[yyctx->__pos]) break;
+      char c[2] = { yyctx->__buf[yyctx->__pos++], '\0' };
       TrString_push(vm, msg, tr_sprintf(vm, c));
     }
     TrString_push(vm, msg, tr_sprintf(vm, "\""));
