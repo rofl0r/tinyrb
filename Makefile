@@ -59,7 +59,8 @@ size: clean
 	@ruby -e 'puts "%0.2fK" % (Dir["vm/*.{c,leg,h}"].inject(0) {|s,f| s += File.size(f)} / 1024.0)'
 
 clean:
-	$(RM) vm/*.o vm/grammar.c
+	@cd vendor/peg && make clean
+	$(RM) vm/*.o vm/grammar.c $(LEG)
 
 rebuild: clean tinyrb
 
