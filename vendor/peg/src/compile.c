@@ -660,6 +660,7 @@ YY_LOCAL(int) yyAccept(yycontext *yy, int tp0)\n\
 \n\
 YY_LOCAL(void) yyPush(yycontext *yy, char *text, int count)\n\
 {\n\
+  (void)text;\n\
   yy->__val += count;\n\
   while (yy->__valslen <= yy->__val - yy->__vals)\n\
     {\n\
@@ -669,8 +670,8 @@ YY_LOCAL(void) yyPush(yycontext *yy, char *text, int count)\n\
       yy->__val= yy->__vals + offset;\n\
     }\n\
 }\n\
-YY_LOCAL(void) yyPop(yycontext *yy, char *text, int count)   { yy->__val -= count; }\n\
-YY_LOCAL(void) yySet(yycontext *yy, char *text, int count)   { yy->__val[count]= yy->__; }\n\
+YY_LOCAL(void) yyPop(yycontext *yy, char *text, int count)   { (void)text; yy->__val -= count; }\n\
+YY_LOCAL(void) yySet(yycontext *yy, char *text, int count)   { (void)text; yy->__val[count]= yy->__; }\n\
 \n\
 #endif /* YY_PART */\n\
 \n\
@@ -813,7 +814,7 @@ void Rule_compile_c(Node *node, int nolines)
   fprintf(output, "\n");
   for (n= actions;  n;  n= n->action.list)
     {
-      fprintf(output, "YY_ACTION(void) yy%s(yycontext *yy, char *yytext, int yyleng)\n{\n", n->action.name);
+      fprintf(output, "YY_ACTION(void) yy%s(yycontext *yy, char *yytext, int yyleng)\n{\n(void)yy;(void)yytext;(void)yyleng;\n", n->action.name);
       defineVariables(n->action.rule->rule.variables);
       fprintf(output, "  yyprintf((stderr, \"do yy%s\\n\"));\n", n->action.name);
       fprintf(output, "  {\n");
