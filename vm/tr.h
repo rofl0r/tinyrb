@@ -6,6 +6,7 @@
 #include <limits.h>
 #include <assert.h>
 #include <errno.h>
+#include <stdint.h>
 
 #include <gc.h>
 #include <pcre.h>
