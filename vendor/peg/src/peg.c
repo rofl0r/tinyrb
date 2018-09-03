@@ -13,7 +13,7 @@
  * 
  * THE SOFTWARE IS PROVIDED 'AS IS'.  USE ENTIRELY AT YOUR OWN RISK.
  * 
- * Last edited: 2007-09-12 00:27:30 by piumarta on vps2.piumarta.com
+ * Last edited: 2016-07-22 09:45:47 by piumarta on zora.local
  */
 
 #include "tree.h"
@@ -29,6 +29,7 @@
 FILE *input= 0;
 
 int   verboseFlag= 0;
+int   nolinesFlag= 0;
 
 static int   lineNumber= 0;
 static char *fileName= 0;
@@ -50,17 +51,17 @@ void yyerror(char *message);
 void yyerror(char *message)
 {
   fprintf(stderr, "%s:%d: %s", fileName, lineNumber, message);
-  if (yytext[0]) fprintf(stderr, " near token '%s'", yytext);
-  if (yypos < yylimit || !feof(input))
+  if (yyctx->__text[0]) fprintf(stderr, " near token '%s'", yyctx->__text);
+  if (yyctx->__pos < yyctx->__limit || !feof(input))
     {
-      yybuf[yylimit]= '\0';
+      yyctx->__buf[yyctx->__limit]= '\0';
       fprintf(stderr, " before text \"");
-      while (yypos < yylimit)
+      while (yyctx->__pos < yyctx->__limit)
 	{
-	  if ('\n' == yybuf[yypos] || '\r' == yybuf[yypos]) break;
-	  fputc(yybuf[yypos++], stderr);
+	  if ('\n' == yyctx->__buf[yyctx->__pos] || '\r' == yyctx->__buf[yyctx->__pos]) break;
+	  fputc(yyctx->__buf[yyctx->__pos++], stderr);
 	}
-      if (yypos == yylimit)
+      if (yyctx->__pos == yyctx->__limit)
 	{
 	  int c;
 	  while (EOF != (c= fgetc(input)) && '\n' != c && '\r' != c)
@@ -84,6 +85,7 @@ static void usage(char *name)
   fprintf(stderr, "where <option> can be\n");
   fprintf(stderr, "  -h          print this help information\n");
   fprintf(stderr, "  -o <ofile>  write output to <ofile>\n");
+  fprintf(stderr, "  -P          do not generate #line directives\n");
   fprintf(stderr, "  -v          be verbose\n");
   fprintf(stderr, "  -V          print version number and exit\n");
   fprintf(stderr, "if no <file> is given, input is read from stdin\n");
@@ -101,7 +103,7 @@ int main(int argc, char **argv)
   lineNumber= 1;
   fileName= "<stdin>";
 
-  while (-1 != (c= getopt(argc, argv, "Vho:v")))
+  while (-1 != (c= getopt(argc, argv, "PVho:v")))
     {
       switch (c)
 	{
@@ -119,6 +121,10 @@ int main(int argc, char **argv)
 	      perror(optarg);
 	      exit(1);
 	    }
+	  break;
+
+	case 'P':
+	  nolinesFlag= 1;
 	  break;
 
 	case 'v':
@@ -167,7 +173,7 @@ int main(int argc, char **argv)
       Rule_print(n);
 
   Rule_compile_c_header();
-  if (rules) Rule_compile_c(rules);
+  if (rules) Rule_compile_c(rules, nolinesFlag);
 
   return 0;
 }
