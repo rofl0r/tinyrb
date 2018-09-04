@@ -6,8 +6,8 @@
 /*#define YY_DEBUG 1*/
 
 #define YYSTYPE   OBJ
-#define YYMALLOC  TR_MALLOC
-#define YYREALLOC TR_REALLOC
+#define YY_MALLOC(C, N)  TR_MALLOC(N)
+#define YY_REALLOC(C, P, N) TR_REALLOC(P, N)
 #define yyvm      compiler->vm
 
 static char *charbuf;
