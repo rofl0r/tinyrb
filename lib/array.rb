@@ -32,4 +32,27 @@ class Array
     end
     "[" + str.join(", ") + "]"
   end
+
+  def +(other)
+    result = []
+    self.each do |x|
+      result << x
+    end
+    other.each do |x|
+      result << x
+    end
+    result
+  end
+
+  def -(other)
+    skip_value = {}
+    other.each do |x|
+        skip_value[x] = true
+    end
+    result = []
+    self.each do |x|
+        result << x unless skip_value[x]
+    end
+    result
+  end
 end
