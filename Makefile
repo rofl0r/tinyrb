@@ -10,6 +10,8 @@ FREEGETOPT = vendor/freegetopt/getopt.o
 # Optimizations
 ifndef DEV
 OPTIMIZE = -O3 -funroll-loops -fomit-frame-pointer -fstrict-aliasing
+else
+OPTIMIZE = -O0 -g3
 endif
 
 ifdef COMPAT
