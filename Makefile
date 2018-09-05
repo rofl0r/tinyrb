@@ -31,7 +31,7 @@ vm/grammar.o: CFLAGS += -Wno-unused-function -Wno-missing-field-initializers
 all: tinyrb
 
 .c.o:
-	${CC} -c ${CFLAGS} ${INCS} -o $@ $<
+	${CC} -c ${CPPFLAGS} ${CFLAGS} ${INCS} -o $@ $<
 
 tinyrb: ${OBJ}
 	${CC} ${CFLAGS} ${OBJ_POTION} ${OBJ} ${LIBS} ${PKG_LIBS} -o tinyrb
