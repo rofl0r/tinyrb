@@ -60,7 +60,7 @@ size: clean
 
 clean:
 	@cd vendor/peg && make clean
-	$(RM) vm/*.o vm/grammar.c $(LEG)
+	$(RM) $(OBJ) vm/*.o vm/grammar.c $(LEG)
 
 rebuild: clean tinyrb
 
