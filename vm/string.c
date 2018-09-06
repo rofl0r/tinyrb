@@ -131,7 +131,6 @@ OBJ tr_sprintf(VM, const char *fmt, ...) {
   vsprintf(ptr, fmt, arg);
   va_end(arg);
   OBJ str = TrString_new(vm, ptr, len);
-  TR_FREE(ptr);
   return str;
 }
 
