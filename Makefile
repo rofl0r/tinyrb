@@ -37,7 +37,7 @@ ifneq ($(SYS),Linux)
 LIBS += ${FREEGETOPT}
 endif
 
-SRC = vm/string.c vm/number.c vm/range.c vm/regexp.c vm/primitive.c vm/proc.c vm/array.c vm/hash.c vm/class.c vm/error.c vm/kernel.c vm/object.c vm/block.c vm/compiler.c vm/grammar.c vm/vm.c vm/tr.c vm/tgc_context.c vendor/tgc/tgc_wrapper.c
+SRC = vm/string.c vm/number.c vm/range.c vm/regexp.c vm/primitive.c vm/proc.c vm/array.c vm/hash.c vm/class.c vm/error.c vm/kernel.c vm/object.c vm/block.c vm/compiler.c vm/grammar.c vm/vm.c vm/tr.c vm/tgc_context.c vendor/tgc/tgc_wrapper.c vm/io.c
 OBJ = ${SRC:.c=.o}
 OBJ_MIN = vm/tr.o
 

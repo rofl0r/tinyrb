@@ -433,6 +433,7 @@ TrVM *TrVM_new(void *stack_addr) {
   TrHash_init(vm);
   TrRange_init(vm);
   TrRegexp_init(vm);
+  TrIO_init(vm);
   
   vm->self = TrObject_alloc(vm, 0);
   vm->cf = -1;

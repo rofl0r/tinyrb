@@ -30,6 +30,7 @@
 #define TR_CHASH(X)          TR_CTYPE(X,Hash)
 #define TR_CRANGE(X)         TR_CTYPE(X,Range)
 #define TR_CREGEXP(X)        TR_CTYPE(X,Regexp)
+#define TR_CIO(X)            TR_CTYPE(X,IO)
 #define TR_CSTRING(X)        ((TR_IS_A(X,String) || TR_IS_A(X,Symbol) ? 0 : TR_TYPE_ERROR(T)),(TrString*)(X))
 #define TR_CMETHOD(X)        ((TrMethod*)X)
 #define TR_CBINDING(X)       TR_CTYPE(X,Binding)
@@ -154,7 +155,7 @@ typedef enum {
   /*  5 */ TR_T_Symbol, TR_T_String, TR_T_Fixnum, TR_T_Range, TR_T_Regexp,
   /* 10 */ TR_T_NilClass, TR_T_TrueClass, TR_T_FalseClass,
   /* 12 */ TR_T_Array, TR_T_Hash,
-  /* 14 */ TR_T_Node,
+  /* 14 */ TR_T_Node, TR_T_IO,
   TR_T_MAX /* keep last */
 } TR_T;
 
@@ -313,6 +314,10 @@ typedef struct TrRegexp {
   pcre *re;
 } TrRegexp;
 
+typedef struct TrIO {
+  TR_OBJECT_HEADER;
+} TrIO;
+
 /* vm */
 TrVM *TrVM_new(void* stack_addr);
 OBJ TrVM_backtrace(VM);
@@ -398,6 +403,10 @@ void TrError_init(VM);
 OBJ TrRegexp_new(VM, char *pattern, int options);
 void TrRegex_free(VM, OBJ self);
 void TrRegexp_init(VM);
+
+/* IO */
+OBJ TrIO_new(VM);
+void TrIO_init(VM);
 
 /* compiler */
 TrBlock *TrBlock_compile(VM, char *code, char *fn, size_t lineno);
