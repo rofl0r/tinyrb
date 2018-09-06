@@ -386,7 +386,7 @@ OBJ TrVM_run(VM, TrBlock *b, OBJ self, OBJ class, int argc, OBJ argv[]) {
 TrVM *TrVM_new(void *stack_addr) {
   TR_START(stack_addr);
 
-  TrVM *vm = TR_ALLOC(TrVM);
+  TrVM *vm = TR_ALLOC0(TrVM);
   vm->symbols = kh_init(str);
   vm->globals = kh_init(OBJ);
   vm->consts = kh_init(OBJ);
