@@ -5,12 +5,16 @@
 TrBlock *TrBlock_new(TrCompiler *compiler, TrBlock *parent) {
   TrBlock *b = TR_ALLOC(TrBlock);
   kv_init(b->k);
-  kv_init(b->code);
-  kv_init(b->locals);
   kv_init(b->strings);
+  kv_init(b->locals);
+  kv_init(b->upvals);
+  kv_init(b->code);
+  kv_init(b->defaults);
+  kv_init(b->blocks);
   kv_init(b->sites);
   b->regc = 0;
   b->argc = 0;
+  b->arg_splat = 0;
   b->filename = compiler->filename;
   b->line = 1;
   b->parent = parent;
