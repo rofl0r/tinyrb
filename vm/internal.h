@@ -2,7 +2,9 @@
 #define _INTERNAL_H_
 
 #define TR_ALLOC(T)          (T *)TR_MALLOC(sizeof(T))
+#define TR_ALLOC0(T)          (T *)TR_CALLOC(1, sizeof(T))
 #define TR_ALLOC_N(T,N)      (T *)TR_MALLOC(sizeof(T)*(N))
+#define TR_ALLOC_N0(T,N)      (T *)TR_CALLOC(N, sizeof(T))
 
 #define TR_MEMZERO(X,T)      memset((X), 0, sizeof(T))
 #define TR_MEMZERO_N(X,T,N)  memset((X), 0, sizeof(T)*(N))
