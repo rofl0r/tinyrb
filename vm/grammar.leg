@@ -265,7 +265,7 @@ STRING1   = '\''                            { STRING_START }
             (
               '\\\''                        { STRING_PUSH("'", 1) }
             | < [^\'] >                     { STRING_PUSH(yytext, yyleng) }
-            )* '\''                         { $$ = TrString_new2(yyvm, sbuf) }
+            )* '\''                         { $$ = TrString_new(yyvm, sbuf, nbuf) }
 
 ESC_CHAR  = '\\n'                           { STRING_PUSH("\n", 1) }
           | '\\b'                           { STRING_PUSH("\b", 1) }
@@ -280,7 +280,7 @@ STRING2   = '"'                             { STRING_START }
               ESC_CHAR
             | < [^\"] >                     { STRING_PUSH(yytext, yyleng) }  #" for higlighting
             )*
-            '"'                             { $$ = TrString_new2(yyvm, sbuf) }
+            '"'                             { $$ = TrString_new(yyvm, sbuf, nbuf) }
 
 REGEXP    = '/'                             { STRING_START }
             (
