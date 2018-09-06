@@ -18,7 +18,7 @@ static int usage() {
 
 int main (int argc, char *argv[]) {
   int opt;
-  TrVM *vm = TrVM_new();
+  TrVM *vm = TrVM_new(&argc);
 
   while((opt = getopt(argc, argv, "e:vdh")) != -1) {
     switch(opt) {

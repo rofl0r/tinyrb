@@ -383,8 +383,8 @@ OBJ TrVM_run(VM, TrBlock *b, OBJ self, OBJ class, int argc, OBJ argv[]) {
   return ret;
 }
 
-TrVM *TrVM_new() {
-  GC_INIT();
+TrVM *TrVM_new(void *stack_addr) {
+  TR_START(stack_addr);
 
   TrVM *vm = TR_ALLOC(TrVM);
   vm->symbols = kh_init(str);
@@ -449,5 +449,5 @@ TrVM *TrVM_new() {
 
 void TrVM_destroy(TrVM *vm) {
   kh_destroy(str, vm->symbols);
-  GC_gcollect();
+  TR_STOP();
 }
