@@ -20,9 +20,10 @@ static OBJ TrVM_lookup(VM, TrBlock *b, OBJ receiver, OBJ msg, TrInst *ip) {
           one is created on polymorphic calls. */
   TrCallSite *s = (kv_pushp(TrCallSite, b->sites));
   s->class = TR_CLASS(receiver);
-  s->miss = 0;
   s->method = method;
   s->message = msg;
+  s->method_missing = 0;
+  s->miss = 0;
   if (unlikely(method == TR_NIL)) {
     s->method = TrObject_method(vm, receiver, tr_intern("method_missing"));
     s->method_missing = 1;
