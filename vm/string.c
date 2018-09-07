@@ -58,14 +58,20 @@ static OBJ TrString_size(VM, OBJ self) {
   return TR_INT2FIX(TR_CSTRING(self)->len);
 }
 
-OBJ TrString_new(VM, const char *str, size_t len) {
+/* create a TrString from an already heap-allocated zero-terminated string */
+OBJ TrString_new4(VM, const char *str, size_t len) {
   TrString *s = TR_INIT_CORE_OBJECT(String);
   s->len = len;
-  s->ptr = TR_ALLOC_N(char, s->len+1);
+  s->ptr = str;
   s->interned = 0;
-  TR_MEMCPY_N(s->ptr, str, char, s->len);
-  s->ptr[s->len] = '\0';
   return (OBJ)s;
+}
+/* duplicate buffer containing str and alloc a new TrString */
+OBJ TrString_new(VM, const char *str, size_t len) {
+  char *ptr = TR_ALLOC_N(char, len+1);
+  TR_MEMCPY_N(ptr, str, char, len);
+  ptr[len] = 0;
+  return TrString_new4(vm, ptr, len);
 }
 
 OBJ TrString_new2(VM, const char *str) {
@@ -122,15 +128,21 @@ OBJ TrString_to_sym(VM, OBJ self) {
 }
 
 OBJ tr_sprintf(VM, const char *fmt, ...) {
+  char buf[1024];
+  OBJ str;
   va_list arg;
   va_start(arg, fmt);
-  int len = vsnprintf(NULL, 0, fmt, arg);
-  char *ptr = alloca(sizeof(char) * len);
+  int len = vsnprintf(buf, sizeof buf, fmt, arg);
+  if (!(len >= sizeof buf)) {
+    str = TrString_new(vm, buf, len);
+  } else {
+    char *ptr = TR_ALLOC_N(char, len+1);
+    va_end(arg);
+    va_start(arg, fmt);
+    vsnprintf(ptr, len+1, fmt, arg);
+    str = TrString_new4(vm, ptr, len);
+  }
   va_end(arg);
-  va_start(arg, fmt);
-  vsprintf(ptr, fmt, arg);
-  va_end(arg);
-  OBJ str = TrString_new(vm, ptr, len);
   return str;
 }
 
