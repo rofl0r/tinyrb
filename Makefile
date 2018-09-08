@@ -49,7 +49,7 @@ all: tinyrb
 	${CC} -c ${CPPFLAGS} ${CFLAGS} ${INCS} -o $@ $<
 
 tinyrb: ${OBJ}
-	${CC} ${CFLAGS} ${OBJ_POTION} ${OBJ} ${LIBS} ${PKG_LIBS} -o tinyrb
+	${CC} ${CFLAGS} ${OBJ_POTION} ${OBJ} ${LIBS} ${PKG_LIBS} ${LDFLAGS} -o tinyrb
 
 vm/grammar.c: ${LEG} vm/grammar.leg
 	${LEG} -ovm/grammar.c vm/grammar.leg
