@@ -6,6 +6,7 @@
 #include "opcode.h"
 #include "internal.h"
 #include "call.h"
+#include "utils.h"
 
 #define RETHROW(R) if (unlikely((R) == TR_UNDEF)) return TR_UNDEF
 
@@ -361,16 +362,9 @@ OBJ TrVM_eval(VM, char *code, char *filename) {
 }
 
 OBJ TrVM_load(VM, char *filename) {
-  FILE *fp;
-  struct stat stats;
-  
-  if (stat(filename, &stats) == -1) tr_raise_errno(filename);
-  fp = fopen(filename, "rb");
-  if (!fp) tr_raise_errno(filename);
-  
-  char *string = TR_ALLOC_N(char, stats.st_size + 1);
-  string[stats.st_size] = 0;
-  if (fread(string, 1, stats.st_size, fp) == (size_t)stats.st_size)
+  size_t str_len;
+  char *string = read_file_into_string(filename, &str_len);
+  if (string != NULL)
     return TrVM_eval(vm, string, filename);
   
   tr_raise_errno(filename);
