@@ -1,5 +1,6 @@
 #include "tr.h"
 #include "internal.h"
+#include <unistd.h>
 
 OBJ TrBinding_new(VM, TrFrame *f) {
   TrBinding *b = TR_INIT_CORE_OBJECT(Binding);
@@ -65,12 +66,38 @@ static OBJ TrKernel_raise(VM, OBJ self, int argc, OBJ argv[]) {
   TR_THROW(EXCEPTION, e);
 }
 
+// TODO: Non standard implementation! Should be updated when tinyrb will support floats.
+static OBJ TrKernel_sleep(VM, OBJ self, OBJ time) {
+  UNUSED(self);
+  UNUSED(vm);
+  int sleep_time = TR_FIX2INT(time);
+  sleep(sleep_time);
+  return time;
+}
+
+static OBJ TrKernel_fork(VM, OBJ self) {
+  UNUSED(self);
+  pid_t pid = fork();
+  switch(pid) {
+    case -1:
+      tr_raise_errno("Kernel::fork");
+      break;
+    case 0:
+      return TR_NIL;
+      break;
+    default:
+      return TR_INT2FIX(pid);
+  }
+}
+
 void TrKernel_init(VM) {
   OBJ m = tr_defmodule("Kernel");
   TrModule_include(vm, TR_CORE_CLASS(Object), m);
   tr_def(m, "puts", TrKernel_puts, -1);
   tr_def(m, "eval", TrKernel_eval, -1);
   tr_def(m, "load", TrKernel_load, 1);
+  tr_def(m, "sleep", TrKernel_sleep, 1);
+  tr_def(m, "fork", TrKernel_fork, 0);
   tr_def(m, "binding", TrKernel_binding, 0);
   tr_def(m, "raise", TrKernel_raise, -1);
 }
