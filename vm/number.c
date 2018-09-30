@@ -27,7 +27,7 @@ void TrFixnum_init(VM) {
   tr_def(c, "*", TrFixnum_mul, 1);
   tr_def(c, "/", TrFixnum_div, 1);
   tr_def(c, "==", TrFixnum_eq, 1);
-  tr_def(c, "!=", TrFixnum_eq, 1);
+  tr_def(c, "!=", TrFixnum_ne, 1);
   tr_def(c, "<", TrFixnum_lt, 1);
   tr_def(c, "<=", TrFixnum_le, 1);
   tr_def(c, ">", TrFixnum_gt, 1);
