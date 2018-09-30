@@ -9,3 +9,7 @@ load "lib/array.rb"
 load "lib/fixnum.rb"
 load "lib/string.rb"
 load "lib/range.rb"
+
+$stdin = IO.new(0)
+$stdout = IO.new(1)
+$stderr = IO.new(2)
