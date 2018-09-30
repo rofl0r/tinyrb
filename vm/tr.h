@@ -316,6 +316,7 @@ typedef struct TrRegexp {
 
 typedef struct TrIO {
   TR_OBJECT_HEADER;
+  int fd;
 } TrIO;
 
 /* vm */
@@ -405,7 +406,7 @@ void TrRegex_free(VM, OBJ self);
 void TrRegexp_init(VM);
 
 /* IO */
-OBJ TrIO_new(VM);
+OBJ TrIO_new(VM, OBJ class, OBJ fd);
 void TrIO_init(VM);
 
 /* compiler */
