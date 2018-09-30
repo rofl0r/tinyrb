@@ -12,13 +12,6 @@ void TrBinding_init(VM) {
   TR_INIT_CORE_CLASS(Binding, Object);
 }
 
-static OBJ TrKernel_puts(VM, OBJ self, int argc, OBJ argv[]) {
-  UNUSED(self);
-  int i;
-  for (i = 0; i < argc; ++i) printf("%s\n", TR_STR_PTR(tr_send2(argv[i], "to_s")));
-  return TR_NIL;
-}
-
 static OBJ TrKernel_binding(VM, OBJ self) {
   UNUSED(self);
   return TrBinding_new(vm, vm->frame->previous);
@@ -93,7 +86,6 @@ static OBJ TrKernel_fork(VM, OBJ self) {
 void TrKernel_init(VM) {
   OBJ m = tr_defmodule("Kernel");
   TrModule_include(vm, TR_CORE_CLASS(Object), m);
-  tr_def(m, "puts", TrKernel_puts, -1);
   tr_def(m, "eval", TrKernel_eval, -1);
   tr_def(m, "load", TrKernel_load, 1);
   tr_def(m, "sleep", TrKernel_sleep, 1);
